@@ -13,20 +13,59 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  email     String   @unique
-  name      String   @unique
-  password  String
-  posts     Post[]
+  id          Int           @id @default(autoincrement())
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  email       String        @unique
+  name        String        @unique
+  password    String
+  posts       Post[]
+  comments    Comment[]
+  postLikes   PostLike[]
+  CommentLike CommentLike[]
 }
 
 model Post {
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  content   String     @db.LongText
+  user      User       @relation(fields: [userId], references: [id])
+  userId    Int
+  comments  Comment[]
+  postLikes PostLike[]
+}
+
+model PostLike {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  content   String   @db.LongText
   user      User     @relation(fields: [userId], references: [id])
   userId    Int
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    Int
+
+  @@unique([userId, postId])
+}
+
+model Comment {
+  id           Int           @id @default(autoincrement())
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  content      String        @db.LongText
+  user         User          @relation(fields: [userId], references: [id])
+  userId       Int
+  post         Post          @relation(fields: [postId], references: [id])
+  postId       Int
+  commentLikes CommentLike[]
+}
+
+model CommentLike {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  comment   Comment  @relation(fields: [commentId], references: [id])
+  commentId Int
+
+  @@unique([userId, commentId])
 }

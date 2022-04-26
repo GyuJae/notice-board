@@ -5,7 +5,7 @@ import prisma from '@libs/server/client'
 import { withApiSession } from '@libs/server/withSession'
 import { User } from '@prisma/client'
 
-interface IMe extends IResponse {
+export interface IMe extends IResponse {
   user?: User
 }
 
