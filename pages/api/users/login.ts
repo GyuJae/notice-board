@@ -1,8 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import withHandler from '@libs/client/withHandler'
+import withHandler from '@libs/server/withHandler'
 import { IResponse } from '@libs/server/types'
 import prisma from '@libs/server/client'
 import bcrypt from 'bcrypt'
+import { withApiSession } from '@libs/server/withSession'
 
 export async function handler(
   req: NextApiRequest,
@@ -34,6 +35,10 @@ export async function handler(
         error: 'Password is wrong.',
       })
     }
+    req.session.user = {
+      id: user.id,
+    }
+    await req.session.save()
     return res.status(201).json({
       ok: true,
     })
@@ -45,4 +50,4 @@ export async function handler(
   }
 }
 
-export default withHandler(['POST'], handler)
+export default withApiSession(withHandler(['POST'], handler))

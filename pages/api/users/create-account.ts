@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import withHandler from '@libs/client/withHandler'
+import withHandler from '@libs/server/withHandler'
 import { IResponse } from '@libs/server/types'
 import prisma from '@libs/server/client'
 import bcrypt from 'bcrypt'

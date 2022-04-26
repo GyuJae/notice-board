@@ -6,8 +6,9 @@ import Layout from '@components/Layout'
 import SubmitButton from '@components/SubmitButton'
 import useMutation from '@libs/client/useMutation'
 import { IResponse } from '@libs/server/types'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import FormError from '@components/FormError'
+import { useRouter } from 'next/router'
 
 interface IForm {
   email: string
@@ -16,6 +17,7 @@ interface IForm {
 }
 
 const CreateAccount: NextPage = () => {
+  const router = useRouter()
   const { register, handleSubmit } = useForm<IForm>()
   const [formError, setFormError] = useState<string | null>(null)
   const [createAccount, { loading, error, data }] = useMutation<IResponse>(
@@ -32,6 +34,17 @@ const CreateAccount: NextPage = () => {
     }
   }
 
+  useEffect(() => {
+    if (error) {
+      setFormError(error)
+    }
+    if (data?.error) {
+      setFormError(data?.error as string)
+    }
+    if (data?.ok) {
+      router.push('/login')
+    }
+  }, [error, data])
   return (
     <Layout title="가입하기">
       <div className="flex flex-col items-center justify-center space-y-6 py-6">
