@@ -7,6 +7,9 @@ import { Comment, Post, User } from '@prisma/client'
 
 export interface CommentWithUser extends Comment {
   user: User
+  commentLikes: {
+    userId: number
+  }[]
   _count: {
     commentLikes: number
   }
@@ -53,6 +56,11 @@ export async function handler(
         comments: {
           include: {
             user: true,
+            commentLikes: {
+              select: {
+                userId: true,
+              },
+            },
             _count: {
               select: {
                 commentLikes: true,

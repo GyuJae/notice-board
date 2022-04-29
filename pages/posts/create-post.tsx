@@ -39,7 +39,7 @@ const CreatePost: NextPage = () => {
         >
           <Textarea
             register={register('content', { required: true })}
-            placeholder={'댓글 달기'}
+            placeholder={'글쓰기'}
           />
           <SubmitButton payload="글쓰기" loading={loading} />
         </form>

@@ -11,7 +11,7 @@ import useMutation from '@libs/client/useMutation'
 import { useEffect } from 'react'
 import { IResponse } from '@libs/server/types'
 import Comment from '@components/Comment'
-import { cls } from '@libs/client/utils'
+import { cls, dateStr } from '@libs/client/utils'
 
 interface ICommentForm {
   content: string
@@ -91,11 +91,16 @@ const Detail: NextPage = () => {
   return (
     <Layout title="Detail">
       <div>
-        <div className="space-y-2 border-[1.5px] border-t-0 py-4">
+        <div className="space-y-2 border-b-[1.5px] py-4">
           <div className="px-2 py-1 font-semibold">{data.post?.user.name}</div>
           <div className="px-2 text-sm">{data.post?.content}</div>
+          {data.post?.createdAt && (
+            <div className="px-2 text-xs text-gray-500">
+              {dateStr(data.post.createdAt)}
+            </div>
+          )}
         </div>
-        <div className="flex items-center justify-around border-[1.5px] border-t-0 py-2">
+        <div className="flex items-center justify-around border-b-[1.5px] py-2">
           <div className="flex items-center justify-center space-x-1 text-gray-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -167,7 +172,7 @@ const Detail: NextPage = () => {
           />
           <SubmitButton payload="댓글달기" loading={createCommentLoading} />
         </form>
-        <div className="space-y-2">
+        <div className="space-y-2 py-2">
           {data.post?.comments.map((comment) => (
             <Comment key={comment.id} comment={comment} />
           ))}
