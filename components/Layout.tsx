@@ -1,4 +1,6 @@
+import useMutation from '@libs/client/useMutation'
 import useUser from '@libs/client/useUser'
+import { IResponse } from '@libs/server/types'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -19,12 +21,21 @@ const Layout: React.FC<ILayout> = ({ children, title, isPrivate = false }) => {
     }
   }, [user, router, isLoading])
 
+  const [logout, { loading: logoutLoading, data: logoutData }] =
+    useMutation<IResponse>('/api/users/logout')
+
+  const onLogout = () => {
+    if (logoutLoading) return
+    logout(null)
+    router.reload()
+  }
+
   return (
-    <div className="relative mx-auto max-w-3xl pl-16">
+    <div className="relative mx-auto h-[100vh] max-w-3xl pl-16">
       <Head>
         <title>{title} | Notice</title>
       </Head>
-      <nav className="absolute left-0 flex h-full w-16 list-none flex-col items-center space-y-3 bg-gray-800 py-5">
+      <nav className="absolute left-0 flex h-[100vh] w-16 list-none flex-col items-center space-y-3 bg-white py-5">
         <li className="sidebar-icon group">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +52,7 @@ const Layout: React.FC<ILayout> = ({ children, title, isPrivate = false }) => {
             />
           </svg>
           <span className="sidebar-tooltip group-hover:scale-100">
-            친구 추가하기
+            구독하기
           </span>
         </li>
         <li className="sidebar-icon group">
@@ -78,7 +89,12 @@ const Layout: React.FC<ILayout> = ({ children, title, isPrivate = false }) => {
                   <span className="cursor-pointer hover:underline">글쓰기</span>
                 </a>
               </Link>
-              <span className="cursor-pointer hover:underline">로그아웃</span>
+              <span
+                onClick={onLogout}
+                className="cursor-pointer hover:underline"
+              >
+                로그아웃
+              </span>
             </div>
           ) : (
             <div className="space-x-2 text-xs">

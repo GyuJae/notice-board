@@ -11,7 +11,7 @@ const Post: React.FC<IPost> = ({ post }) => {
   return (
     <Link href={`/posts/${post.id}`}>
       <a>
-        <div className="flex cursor-pointer flex-col space-y-1 border-b-2 p-2 text-sm">
+        <div className="flex cursor-pointer flex-col space-y-1 border-b-2 p-2 text-sm hover:bg-gray-50">
           <span>{post.content}</span>
           <div className="flex items-center space-x-2 text-xs">
             <span className="">{post.user.name}</span>

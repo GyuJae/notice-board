@@ -31,7 +31,7 @@ const CreatePost: NextPage = () => {
   }, [data, router, data?.postId])
   return (
     <Layout title="글 쓰기" isPrivate>
-      <div className="flex flex-col justify-center space-y-4 py-4">
+      <div className="flex flex-col justify-center space-y-4 py-4 px-2">
         <h1 className="ml-2 text-lg">글 쓰기</h1>
         <form
           onSubmit={handleSubmit(onSubmit)}

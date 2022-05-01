@@ -90,15 +90,19 @@ const Detail: NextPage = () => {
   }
   return (
     <Layout title="Detail">
-      <div>
+      <div className="px-2">
         <div className="space-y-2 border-b-[1.5px] py-4">
-          <div className="px-2 py-1 font-semibold">{data.post?.user.name}</div>
-          <div className="px-2 text-sm">{data.post?.content}</div>
-          {data.post?.createdAt && (
-            <div className="px-2 text-xs text-gray-500">
-              {dateStr(data.post.createdAt)}
+          <div className="text-sm">{data.post?.content}</div>
+          <div className="flex items-center space-x-2">
+            <div className="cursor-pointer text-xs underline-offset-2 hover:underline">
+              {data.post?.user.name}
             </div>
-          )}
+            {data.post?.createdAt && (
+              <div className="text-xs text-gray-500">
+                {dateStr(data.post.createdAt)}
+              </div>
+            )}
+          </div>
         </div>
         <div className="flex items-center justify-around border-b-[1.5px] py-2">
           <div className="flex items-center justify-center space-x-1 text-gray-600">
